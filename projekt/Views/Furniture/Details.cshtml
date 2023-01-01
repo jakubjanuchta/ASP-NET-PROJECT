@@ -1,0 +1,14 @@
+﻿@model projekt.Models.Furniture;
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Furtniture details</h2>
+<h3>Label: @Model.Label</h3>
+<p>Production date: @Model.ProductionDate</p>
+<p>Created at: @Model.Created</p>
+ @if (@Model.ImageLink is not null){
+   <img src="@Model.ImageLink" alt="furniture image" />
+}
