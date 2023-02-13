@@ -1,77 +1,112 @@
-﻿using projekt.Models;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projekt.Models;
+using projekt.Models.Data.Static;
+using projekt.Services;
 
 namespace projekt.Controllers;
 
+[Authorize(Roles = UserRoles.Admin)]
 public class FurnitureController : Controller
 {
+    private readonly IFurnitureService _furnitureService;
 
-    private static AppDbContext _context = new AppDbContext();
-    // GET
-    public IActionResult Index()
+    public FurnitureController(IFurnitureService furnitureService)
     {
-        return View(_context.Furnitures.ToList());
+        _furnitureService = furnitureService;
     }
 
-    public IActionResult Edit([FromRoute] int id)
-    {
-        Furniture? foundFurniture = _context.Furnitures.Find(id);
-        if (foundFurniture is not null)
-        {
-            return View(foundFurniture);
-        }
 
-        return RedirectToAction(nameof(Index));
-    }
-    [HttpPost]
-    public IActionResult Edit([FromForm] Furniture furniture)
+    [AllowAnonymous]
+    public async Task<IActionResult> Index()
     {
-        if (ModelState.IsValid)
-        {
-            Furniture? foundFurniture = _context.Furnitures.Find(furniture.Id);
-            if (foundFurniture is not null)
-            {
-                foundFurniture.Label = furniture.Label;
-                foundFurniture.ProductionDate = furniture.ProductionDate;
-                foundFurniture.ImageLink = furniture.ImageLink;
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-        }
+        var result = await _furnitureService.GetAll();
+        return View(result);
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> Details(int id)
+    {
+        var result = await _furnitureService.GetById(id);
+        return View(result);
+    }
+    [AllowAnonymous]
+    public async Task<IActionResult> Buy()
+    {
+        return View();
+    }
+
+    public async Task<IActionResult> Create()
+    {
+        var dropdown = await _furnitureService.GetDropDownsValues();
+
+        ViewBag.Creators = new SelectList(dropdown.Creators, "Id", "FirstName");
+        ViewBag.Companies = new SelectList(dropdown.Companies, "Id", "Name");
+        ViewBag.Categories = new SelectList(dropdown.Categories, "Id", "Name");
+
         return View();
     }
 
     [HttpPost]
-    public IActionResult Create([FromForm] Furniture furniture)
+    public async Task<IActionResult> Create(FurnitureViewModel furniture)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            _context.Furnitures.Add(furniture);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            var dropdown = await _furnitureService.GetDropDownsValues();
+
+            ViewBag.Creators = new SelectList(dropdown.Creators, "Id", "FirstName");
+            ViewBag.Companies = new SelectList(dropdown.Companies, "Id", "Name");
+            ViewBag.Categories = new SelectList(dropdown.Categories, "Id", "Name");
+
+            return View(furniture);
         }
 
-        return View();
-    }
-
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    public IActionResult Delete([FromRoute] int id)
-    {
-        Furniture? foundFurniture = _context.Furnitures.Find(id);
-        _context.Furnitures.Remove(foundFurniture);
-        _context.SaveChanges();
+        await _furnitureService.Add(furniture);
         return RedirectToAction(nameof(Index));
     }
-
-    public IActionResult Details([FromRoute] int id)
+    public async Task<IActionResult> Update(int id)
     {
-        Furniture? foundFurniture = _context.Furnitures.Find(id);
-        return foundFurniture is not null ? View(foundFurniture) : RedirectToAction(nameof(Index));
+        var details = await _furnitureService.GetById(id);
+        if (details == null) return View("NotFound");
+
+        var response = new FurnitureViewModel()
+        {
+            Id = details.Id,
+            Name = details.Name,
+            ImageURL = details.ImageURL,
+            ProductionDate = details.ProductionDate,
+            CompanyId = details.CompanyId,
+            CreatorId = details.CreatorId,
+            CategoryId = details.CategoryId,
+        };
+
+        var dropdown = await _furnitureService.GetDropDownsValues();
+
+        ViewBag.Creators = new SelectList(dropdown.Creators, "Id", "FirstName");
+        ViewBag.Companies = new SelectList(dropdown.Companies, "Id", "Name");
+        ViewBag.Categories = new SelectList(dropdown.Categories, "Id", "Name");
+
+        return View(response);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(int id, FurnitureViewModel furniture)
+    {
+        if (id != furniture.Id) return View("NotFound");
+
+        if (!ModelState.IsValid)
+        {
+            var dropdown = await _furnitureService.GetDropDownsValues();
+
+            ViewBag.Creators = new SelectList(dropdown.Creators, "Id", "FirstName");
+            ViewBag.Companies = new SelectList(dropdown.Companies, "Id", "Name");
+            ViewBag.Categories = new SelectList(dropdown.Categories, "Id", "Name");
+
+            return View(furniture);
+        }
+
+        await _furnitureService.Update(id, furniture);
+        return RedirectToAction(nameof(Index));
     }
 }

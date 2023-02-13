@@ -1,54 +1,72 @@
-﻿@model IList<projekt.Models.Furniture>
+﻿@model System.Collections.Generic.IEnumerable<projekt.Models.Furniture>
+
 @{
+    ViewData["Title"] = "List of furnitures";
 }
 
-<div id="furniture">
-        <h2>Furniture list</h2>
-        <div id="furniture__wrapper">
-        @foreach (var furniture in @Model)
-        {
-               <h3>@furniture.Label</h3>
-               <p>Production Date: @furniture.ProductionDate.ToString("dd.MM.yyyy")</p>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-info">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.Name
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="Furniture" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                                    }
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@item.ImageURL" width="100%" alt="@item.Name">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text"><b>Creator: </b>@item.Creator.FirstName + @item.Creator.SecondName</p>
+                            <p class="card-text">
+                                <b>Company: </b>@item.Company.Name
+                            </p>
+                            <p class="card-text">
+                                <b>Category: </b>@item.Category.Name
+                            </p>
+                            <p class="card-text">
+                                <b>Production Date: </b>@item.ProductionDate.ToString("dd MMM yy")
+                            </p>
+                        </div>
+                    </div>
 
-                    <a class="btn btn-primary" asp-action="Edit" asp-controller="Furniture" asp-route-id=@furniture.Id>Edit</a>
-                    <a class="btn btn-secondary" asp-action="Details" asp-controller="Furniture" asp-route-id=@furniture.Id>Details</a>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteFurnitureModal" data-bs-id=@furniture.Id>
-                     Delete
-                   </button>
-            @if (@furniture.ImageLink is not null)
-            {
-                <img src="@furniture.ImageLink" alt="furniture image" />
-            }
-        }
-        </h3>
-    <div>
-        <a class="btn btn-outline-primary" asp-action="Create" asp-controller="Furniture">Add new furniture piece</a>
-    </div>
-</div>
-<div class="modal fade" id="deleteFurnitureModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Furniture delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are You sure that you want to delete this furniture piece?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a id="deletingLink" class="btn btn-danger" >Delete</a>
+                    <div class="col-md-12">
+                        <div class="card-footer ">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
+                                    <i class="bi bi-eye-fill"></i> Show Details
+                                </a>
+                                @if (User.IsInRole("User"))
+                                {
+                                    <a class="btn btn-outline-primary float-right" asp-action="Buy">
+                                        <i class="bi bi-eye-fill"></i> Buy
+                                    </a>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    }
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="text-white">
+            <a asp-controller="Furniture" asp-action="Create" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add New
+            </a>
+        </div>
+    }
 </div>
-<script>
-    const deleteFurnitureModal = document.getElementById("deleteFurnitureModal");
-    if (deleteFurnitureModal) {
-        deleteFurnitureModal.addEventListener('show.bs.modal', event => {
-          const id = event.relatedTarget.getAttribute('data-bs-id')
-          const deletingLink = deleteFurnitureModal.querySelector('#deletingLink');
-          deletingLink.href = `/furniture/delete/${id}`;
-        })
-      }
-</script>
