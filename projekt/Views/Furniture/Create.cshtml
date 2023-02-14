@@ -1,30 +1,75 @@
-﻿@model projekt.Models.Furniture;
+﻿@model FurnitureViewModel
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewData["Title"] = "Create furniture";
 }
 
-<h2>Add new furniture piece</h2>
-<div>
-    <form asp-action="Create" method="post">
-        <div class="mb-3">
-            <label asp-for="Label"></label>
-            <input class="form-control" asp-for="Label"/>
-            <span asp-validation-for="Label"></span>
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4>Create furniture</h4>
+        </p>
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ProductionDate" class="control-label"></label>
+                                <input asp-for="ProductionDate" type="date" class="form-control" />
+                                <span asp-validation-for="ProductionDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ImageURL" class="control-label"></label>
+                                <input asp-for="ImageURL" class="form-control" />
+                                <span asp-validation-for="ImageURL" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CategoryId" class="control-label"></label>
+                                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CompanyId" class="control-label"></label>
+                                <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.Companies"></select>
+                                <span asp-validation-for="CompanyId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CreatorId" class="control-label"></label>
+                                <select asp-for="CreatorId" class="form-control"  asp-items="ViewBag.Creators" ></select>
+                                <span asp-validation-for="CreatorId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 offset-4 text-center">
+                        <img width="100%" id="ImageUrlPreview" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-outline-success float-right" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <label asp-for="ProductionDate"></label>
-            <input class="form-control" asp-for="ProductionDate"/>
-            <span asp-validation-for="ProductionDate"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="ImageLink"></label>
-            <input class="form-control" asp-for="ImageLink"/>
-            <span asp-validation-for="ImageLink"></span>
-        </div>
-        <div class="mb-3">
-            <button class ="btn btn-primary" type="submit">Add new</button>
-        </div>
-    </form>
+
+    </div>
 </div>
+
+@section Scripts{ 
+    <script>
+        $("#ImageURL").on("change", function () {
+            var output = document.getElementById("ImageUrlPreview");
+            output.src = $(this).val();
+        })
+    </script>
+}

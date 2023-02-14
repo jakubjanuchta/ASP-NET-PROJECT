@@ -1,75 +1,54 @@
-﻿@model FurnitureViewModel
+﻿@model projekt.Models.Furniture
 
 @{
-    ViewData["Title"] = "Create furniture";
+    ViewData["Title"] = "Furniture details";
 }
 
-<div class="row">
-    <div class="col-md-8 offset-2">
-        <p>
-            <h4>Create furniture</h4>
-        </p>
-
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ProductionDate" class="control-label"></label>
-                                <input asp-for="ProductionDate" type="date" class="form-control" />
-                                <span asp-validation-for="ProductionDate" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ImageURL" class="control-label"></label>
-                                <input asp-for="ImageURL" class="form-control" />
-                                <span asp-validation-for="ImageURL" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="CategoryId" class="control-label"></label>
-                                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
-                                <span asp-validation-for="CategoryId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="CompanyId" class="control-label"></label>
-                                <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.Companies"></select>
-                                <span asp-validation-for="CompanyId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="CreatorId" class="control-label"></label>
-                                <select asp-for="CreatorId" class="form-control"  asp-items="ViewBag.Creators" ></select>
-                                <span asp-validation-for="CreatorId" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 offset-4 text-center">
-                        <img width="100%" id="ImageUrlPreview" />
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-outline-success float-right" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
-                    </div>
-                </form>
+<div class="col-md-4 col-xs-6 border-primary mb-3">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-header text-white bg-info">
+                    <p class="card-text">
+                        <h5 class="card-title">
+                            @Model.Name
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="text-white float-right" asp-action="Update" asp-route-id="@Model.Id">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                            }
+                        </h5>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="@Model.ImageURL" width="100%" alt="@Model.Name">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <p class="card-text">@Model.Name</p>
+                    <p class="card-text"><b>Creator: </b>@Model.Creator.FirstName  @Model.Creator.SecondName</p>
+                    <p class="card-text">
+                        <b>Creator bio: </b>@Model.Creator.Bio
+                    </p>
+                    <p class="card-text">
+                        <b>Company: </b>@Model.Company.Name
+                    </p>
+                    <p class="card-text">
+                        <b>Company address: </b>@Model.Company.Address
+                    </p>
+                    <p class="card-text">
+                        <b>Company phone number: </b>@Model.Company.PhoneNumber
+                    </p>
+                    <p class="card-text">
+                        <b>Category: </b>@Model.Category.Name
+                    </p>
+                    <p class="card-text">
+                        <b>Production Date: </b>@Model.ProductionDate.ToString("dd MMM yy")
+                    </p>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
-
-@section Scripts{ 
-    <script>
-        $("#ImageURL").on("change", function () {
-            var output = document.getElementById("ImageUrlPreview");
-            output.src = $(this).val();
-        })
-    </script>
-}
