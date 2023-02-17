@@ -4,27 +4,21 @@
     ViewData["Title"] = "Update category " + Model.Name;
 }
 
-<div class="row text">
-    <div class="col-md-8 offset-2">
-        <p>
-            <h1>Update category</h1>
-        </p>
-        <div class="row">
-            <div class="col-md-8 offset-2">
+<div class="item item-update item-category">
+         <h4>Update category</h4>
                 <form asp-action="Update">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
+                    <div class="form">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                        <div class="buttons">
+                            <input type="submit" value="Update" class="btn" />
+                            <a class="btn" asp-action="Index">Show All</a>
+                        </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
 </div>

@@ -1,22 +1,20 @@
 ﻿@model FurnitureViewModel
 
 @{
-    ViewData["Title"] = "Update a new furniture";
+    ViewData["Title"] = "Update furniture";
 }
 
-<div class="row">
-    <div class="col-md-8 offset-2">
-        <p>
-            <h4>Update a new furniture</h4>
-        </p>
+<div class="item item-update item-furniture">
+        <h4>Update furniture</h4>
+        
+                <div class="image"> 
+                    <img id="ImageUrlPreview" />
+                </div>
 
-        <div class="row">
-            <div class="col-md-8 offset-2">
                 <form asp-action="Update">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="form">
                             <div class="form-group">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" />
@@ -32,8 +30,6 @@
                                 <input asp-for="ImageURL" class="form-control" />
                                 <span asp-validation-for="ImageURL" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="CategoryId" class="control-label"></label>
                                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
@@ -49,20 +45,14 @@
                                 <select asp-for="CreatorId" class="form-control"  asp-items="ViewBag.Creators" ></select>
                                 <span asp-validation-for="CreatorId" class="text-danger"></span>
                             </div>
-                        </div>
                     </div>
-                    <div class="col-md-4 offset-4 text-center">
-                        <img width="100%" id="ImageUrlPreview" />
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                    
+                    <div class="buttons">
+                        <input type="submit" value="Update" class="btn" />
+                        <a class="btn" asp-action="Index">Show all</a>
                     </div>
                 </form>
-            </div>
-        </div>
 
-    </div>
 </div>
 
 @section Scripts{ 

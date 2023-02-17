@@ -4,12 +4,9 @@
     ViewData["Title"] = "List of all users";
 }
 
-<div class="row">
-    <div class="col-md-6 offset-3">
-        <p>
-            <h4>List of all users</h4>
-        </p>
-
+<div class="users-list">
+        <h4>List of all users</h4>
+   
         <table class="table">
             <thead>
             <tr class="text-center">
@@ -21,7 +18,7 @@
             <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="text-center">
                     <td class="align-middle">
                         @Html.DisplayFor(modelItem => item.FullName)
                     </td>
@@ -37,5 +34,4 @@
 
         </table>
 
-    </div>
 </div>

@@ -4,51 +4,57 @@
     ViewData["Title"] = "Furniture details";
 }
 
-<div class="col-md-4 col-xs-6 border-primary mb-3">
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-12">
-                <div class="card-header text-white bg-info">
+<div class="card-container">
+    <div class="card-wrapper">
+        <div class="card card-details" >
+                <div class="card-header text-black">
                     <p class="card-text">
                         <h5 class="card-title">
                             @Model.Name
-                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                            {
-                                <a class="text-white float-right" asp-action="Update" asp-route-id="@Model.Id">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                            }
+                           
                         </h5>
                     </p>
                 </div>
+            <div class="card-img">
+                <img src="@Model.ImageURL" alt="@Model.Name">
             </div>
-            <div class="col-md-6">
-                <img src="@Model.ImageURL" width="100%" alt="@Model.Name">
-            </div>
-            <div class="col-md-6">
+            <div>
                 <div class="card-body">
-                    <p class="card-text">@Model.Name</p>
-                    <p class="card-text"><b>Creator: </b>@Model.Creator.FirstName  @Model.Creator.SecondName</p>
+                    <p class="card-text"><b>Creator: </b><br/>@Model.Creator.FirstName  @Model.Creator.SecondName</p>
                     <p class="card-text">
-                        <b>Creator bio: </b>@Model.Creator.Bio
+                        <b>Creator bio: </b><br/>@Model.Creator.Bio
                     </p>
                     <p class="card-text">
-                        <b>Company: </b>@Model.Company.Name
+                        <b>Company: </b><br/>@Model.Company.Name
                     </p>
                     <p class="card-text">
-                        <b>Company address: </b>@Model.Company.Address
+                        <b>Company address: </b><br/>@Model.Company.Address
                     </p>
                     <p class="card-text">
-                        <b>Company phone number: </b>@Model.Company.PhoneNumber
+                        <b>Company phone number: </b><br/>@Model.Company.PhoneNumber
                     </p>
                     <p class="card-text">
-                        <b>Category: </b>@Model.Category.Name
+                        <b>Category: </b><br/>@Model.Category.Name
                     </p>
                     <p class="card-text">
-                        <b>Production Date: </b>@Model.ProductionDate.ToString("dd MMM yy")
+                        <b>Production Date: </b><br/>@Model.ProductionDate.ToString("dd MMM yy")
                     </p>
                 </div>
             </div>
+             <div class="card-footer ">
+                            <p class="card-text">
+             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-update" asp-action="Update" asp-route-id="@Model.Id">
+                                    <i class="bi bi-pencil-square"></i>Update
+                                </a>
+                            }
+                </p>
+              </div>
         </div>
     </div>
 </div>
+
+<a class="btn btn-go-back" href="/">
+    Go back
+</a>

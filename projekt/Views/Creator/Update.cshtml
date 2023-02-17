@@ -4,37 +4,31 @@
     ViewData["Title"] = "Update creator " + Model.FirstName;
 }
 
-<div class="row text">
-    <div class="col-md-8 offset-2">
-        <p>
-            <h1>Update creator</h1>
-        </p>
-        <div class="row">
-            <div class="col-md-8 offset-2">
+<div class="item item-update item-creator">
+        <h4>Update creator</h4>
                 <form asp-action="Update">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="FirstName" class="control-label"></label>
-                        <input asp-for="FirstName" class="form-control" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="SecondName" class="control-label"></label>
-                        <input asp-for="SecondName" class="form-control" />
-                        <span asp-validation-for="SecondName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Bio" class="control-label"></label>
-                        <input asp-for="Bio" class="form-control" />
-                        <span asp-validation-for="Bio" class="text-danger"></span>
-                    </div>
+                     <div class="form">
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SecondName" class="control-label"></label>
+                            <input asp-for="SecondName" class="form-control" />
+                            <span asp-validation-for="SecondName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Bio" class="control-label"></label>
+                            <input asp-for="Bio" class="form-control" />
+                            <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                        <div class="buttons">
+                            <input type="submit" value="Update" class="btn" />
+                            <a class="btn" asp-action="Index">Show All</a>
+                        </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
 </div>

@@ -5,68 +5,70 @@
 }
 
 <div class="row">
+    <div class="furniture-header">
+        <h1 class="furniture-title">Furniture list</h1>
+
+        
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="add-furnitre">
+            <a asp-controller="Furniture" asp-action="Create" class="btn">
+                <i class="bi bi-plus-circle"></i> Add a new piece of furniture
+            </a>
+        </div>
+    }
+    </div>
+    <div class="card-container">
     @foreach (var item in Model)
     {
-        <div class="col-md-4 col-xs-6 border-primary mb-3">
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-12">
-                        <div class="card-header text-white bg-info">
+        <div class="card-wrapper mb-3">
+            <div class="card" >
+                        <div class="card-header text-black">
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Name
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <a asp-controller="Furniture" asp-action="Update" asp-route-id="@item.Id">Update</a>
-                                    }
                                 </h5>
                             </p>
-                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <img src="@item.ImageURL" width="100%" alt="@item.Name">
+                    <div class="card-img">
+                        <img src="@item.ImageURL" alt="@item.Name">
                     </div>
-                    <div class="col-md-6">
+                    <div>
                         <div class="card-body">
-                            <p class="card-text"><b>Creator: </b>@item.Creator.FirstName + @item.Creator.SecondName</p>
+                            <p class="card-text"><b>Creator: </b><br/>@item.Creator.FirstName @item.Creator.SecondName</p>
                             <p class="card-text">
-                                <b>Company: </b>@item.Company.Name
+                                <b>Company: </b><br/>@item.Company.Name
                             </p>
                             <p class="card-text">
-                                <b>Category: </b>@item.Category.Name
+                                <b>Category: </b><br/>@item.Category.Name
                             </p>
                             <p class="card-text">
-                                <b>Production Date: </b>@item.ProductionDate.ToString("dd MMM yy")
+                                <b>Production Date: </b><br/>@item.ProductionDate.ToString("dd MMM yy")
                             </p>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
                         <div class="card-footer ">
                             <p class="card-text">
-                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
+                                <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
                                 @if (User.IsInRole("User"))
                                 {
-                                    <a class="btn btn-outline-primary float-right" asp-action="Buy">
+                                    <a class="btn btn-buy" asp-action="Buy">
                                         <i class="bi bi-eye-fill"></i> Buy
                                     </a>
                                 }
+
+                                
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="btn btn-update btn-outline-primary float-right" asp-controller="Furniture" asp-action="Update" asp-route-id="@item.Id"> <i class="bi bi-eye-fill"></i>Update</a>
+                                    }
                             </p>
                         </div>
-                    </div>
-                </div>
             </div>
         </div>
     }
-
-    @if (User.IsInRole("Admin"))
-    {
-        <div class="text-white">
-            <a asp-controller="Furniture" asp-action="Create" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Add New
-            </a>
-        </div>
-    }
+    </div>
 </div>

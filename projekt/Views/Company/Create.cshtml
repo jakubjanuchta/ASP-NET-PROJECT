@@ -1,18 +1,14 @@
 ﻿@model Company
 
 @{
-    ViewData["Title"] = "Add new company";
+    ViewData["Title"] = "Add a new company";
 }
 
-<div class="row text">
-    <div class="col-md-8 offset-2">
-        <p>
-            <h1>Add new company</h1>
-        </p>
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="item item-create item-company">
+        <h4>Add a new company</h4>
+             <form asp-action="Create">
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 <div class="form">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
                         <input asp-for="Name" class="form-control" />
@@ -29,12 +25,10 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-outline-success float-right" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                    <div class="buttons">
+                        <input type="submit" value="Create" class="btn" />
+                        <a class="btn" asp-action="Index">Show All</a>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                </div>
+             </form>
 </div>

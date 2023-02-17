@@ -94,6 +94,23 @@ public class AppDbInitializer
                             CompanyId = 1,
                             CreatorId = 1,
                             CategoryId = 1
+                        },
+                        new Furniture()
+                        {
+                            Name = "Szafa",
+                            ImageURL = "https://a.allegroimg.com/original/038722/00fbbdd249f5858a162865413c4a/Szafa-przesuwna-Garderoba-MULTI-23-233-z-lustrem", ProductionDate = DateTime.Now.AddDays(-15),
+                            CompanyId = 3,
+                            CreatorId = 2,
+                            CategoryId = 4
+                        },
+                        new Furniture()
+                        {
+                            Name = "Łóżko",
+                            ImageURL = "https://mybed.pl/environment/cache/images/1028_1028_productGfx_2315/gulia.jpg",
+                            ProductionDate = DateTime.Now.AddDays(-30),
+                            CompanyId = 2,
+                            CreatorId = 1,
+                            CategoryId = 2
                         }
                     });
                     context.SaveChanges();
